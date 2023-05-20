@@ -1,0 +1,36 @@
+import java.util.*;
+
+public class PascalTriangle {
+    static Map<Integer, Integer[]> memo = new HashMap<>();
+
+    public static void main(String[] args) {
+        int rows = 2;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j <= i; j++) {
+                System.out.print(pascal(i, j) + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static int pascal(int row, int col) {
+        if (col == 0 || col == row) {
+            return 1;
+        }
+        if (memo.containsKey(row)) {
+            Integer[] rowValues = memo.get(row);
+            if (rowValues[col] != null) {
+                return rowValues[col];
+            }
+        }
+        int result = pascal(row - 1, col - 1) + pascal(row - 1, col);
+        if (memo.containsKey(row)) {
+            memo.get(row)[col] = result;
+        } else {
+            Integer[] rowValues = new Integer[row + 1];
+            rowValues[col] = result;
+            memo.put(row, rowValues);
+        }
+        return result;
+    }
+}
